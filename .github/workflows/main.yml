@@ -1,0 +1,25 @@
+name: Run Setup Script
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Run setup script
+        run: |
+          chmod +x setup.sh
+          ./setup.sh
+      
+      - name: Save output
+        run: |
+          echo "OUTPUT<<EOF" >> $GITHUB_ENV
+          cat result.txt >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      
+      - name: Show output
+        run: echo "${{ env.OUTPUT }}"
